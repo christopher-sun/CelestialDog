@@ -135,8 +135,6 @@ var Init = function (machine) {
         if (callback !== undefined) callback();
       });
     }
-
-    if (callback !== undefined) callback();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -157,7 +155,7 @@ var Play = function (machine) {
   this.Enter = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[playCount]);
+    DrawInID("#target", chosenAction.lines[playCount]);
     $("#pick").show();
     $("#target").fadeIn();
     feedCount = 0;
@@ -166,12 +164,12 @@ var Play = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
-    playCount++;
+    
     ClearByID("#target");
     DrawInID("#target", chosenAction.lines[playCount]);
     $("#pick").show();
     $("#target").fadeIn();
-    if (playCount == 2) {
+    if (playCount == 3) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Implode"]);
 
@@ -190,7 +188,9 @@ var Play = function (machine) {
 
         if (callback !== undefined) callback();
       });
+
     }
+    playCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -210,7 +210,7 @@ var Feed = function (machine) {
   this.Enter = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[feedCount]);
+    DrawInID("#target", chosenAction.lines[feedCount]);
     $("#pick").show();
     $("#target").fadeIn();
 
@@ -218,12 +218,12 @@ var Feed = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
-    feedCount++;
+    
     ClearByID("#target");
     DrawInID("#target", chosenAction.lines[feedCount]);
     $("#pick").show();
     $("#target").fadeIn();
-    if (feedCount == 2) {
+    if (feedCount == 3) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Explode"]);
 
@@ -243,6 +243,7 @@ var Feed = function (machine) {
         if (callback !== undefined) callback();
       });
     }
+    feedCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -261,7 +262,7 @@ var Pet = function (machine) {
     feedCount = 0;
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[playCount]);
+    DrawInID("#target", chosenAction.lines[playCount]);
     $("#pick").show();
     $("#target").fadeIn();
 
@@ -269,7 +270,7 @@ var Pet = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
-    playCount++;
+    
     ClearByID("#target");
     DrawInID("#target", chosenAction.lines[playCount]);
     $("#pick").show();
@@ -288,13 +289,14 @@ var Pet = function (machine) {
         if (callback !== undefined) callback();
       });
     
-    } else if (playCount == 2) {
+    } else if (playCount == 3) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Implode"]);
 
         if (callback !== undefined) callback();
       });
     }
+    playCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");

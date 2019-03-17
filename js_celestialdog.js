@@ -163,8 +163,6 @@ var Init = function (machine) {
         if (callback !== undefined) callback();
       });
     }
-
-    if (callback !== undefined) callback();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -206,13 +204,18 @@ var Play = function (machine) {
 
     // playCount ++;
     ClearByID("#target");
+<<<<<<< HEAD
     DrawInID("#target", chosenAction.lines[playCount-1]);
+=======
+    DrawInID("#target", chosenAction.lines[playCount]);
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
     $("#pick").show();
     $("#target").fadeIn();
 
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
+<<<<<<< HEAD
       if (shouldDebug) console.log("---- " + this.name + " Update2");
     if (chosenAction == playing) {
       playCount++;
@@ -225,6 +228,15 @@ var Play = function (machine) {
       }
     }
      else if (chosenAction == feeding) {
+=======
+    if (shouldDebug) console.log("---- " + this.name + " Update");
+    
+    ClearByID("#target");
+    DrawInID("#target", chosenAction.lines[playCount]);
+    $("#pick").show();
+    $("#target").fadeIn();
+    if (playCount == 3) {
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Feed"]);
 
@@ -245,7 +257,9 @@ var Play = function (machine) {
 
         if (callback !== undefined) callback();
       });
+
     }
+    playCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -278,7 +292,11 @@ var Feed = function (machine) {
           console.log("----------------");
         };
     ClearByID("#target");
+<<<<<<< HEAD
     DrawInID("#target", chosenAction.lines[feedCount-1]);
+=======
+    DrawInID("#target", chosenAction.lines[feedCount]);
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
     $("#pick").show();
     $("#target").fadeIn();
     if (shouldDebug) console.log(chosenAction.lines[feedCount-1]);
@@ -287,6 +305,7 @@ var Feed = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
+<<<<<<< HEAD
     // feedCount++;
 if (chosenAction == feeding) {
       feedCount++;
@@ -299,6 +318,14 @@ if (chosenAction == feeding) {
       }
     }
         else if (chosenAction == playing) {
+=======
+    
+    ClearByID("#target");
+    DrawInID("#target", chosenAction.lines[feedCount]);
+    $("#pick").show();
+    $("#target").fadeIn();
+    if (feedCount == 3) {
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Play"]);
 
@@ -319,6 +346,7 @@ if (chosenAction == feeding) {
         if (callback !== undefined) callback();
       });
     }
+    feedCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -350,7 +378,11 @@ var Pet = function (machine) {
           console.log("----------------");
         };
     ClearByID("#target");
+<<<<<<< HEAD
     DrawInID("#target", chosenAction.lines[petCount%3]);
+=======
+    DrawInID("#target", chosenAction.lines[playCount]);
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
     $("#pick").show();
     $("#target").fadeIn();
 
@@ -358,7 +390,11 @@ var Pet = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
+<<<<<<< HEAD
     // petCount++;
+=======
+    
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
     ClearByID("#target");
     // DrawInID("#target", chosenAction.lines[petCount]);
     $("#pick").show();
@@ -370,20 +406,26 @@ var Pet = function (machine) {
         if (callback !== undefined) callback();
       });
     }
-      else if (chosenAction == petting) {
+      else if (chosenAction == feeding) {
       $("#target").fadeOut(function() {
-        fsm.Change(fsm.states["Pet"]);
+        fsm.Change(fsm.states["Feed"]);
 
         if (callback !== undefined) callback();
       });
+<<<<<<< HEAD
 
     } else if (chosenAction == feeding) {
+=======
+    
+    } else if (playCount == 3) {
+>>>>>>> 3ebef9079576d29049eb58af4b914825c6fb1905
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Feed"]);
 
         if (callback !== undefined) callback();
       });
     }
+    playCount++;
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");

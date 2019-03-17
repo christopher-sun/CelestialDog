@@ -281,9 +281,9 @@ var Pet = function (machine) {
         if (callback !== undefined) callback();
       });
     }
-      else if (chosenAction == petting) {
+      else if (chosenAction == feeding) {
       $("#target").fadeOut(function() {
-        fsm.Change(fsm.states["Pet"]);
+        fsm.Change(fsm.states["Feed"]);
 
         if (callback !== undefined) callback();
       });

@@ -117,6 +117,12 @@ var Init = function (machine) {
     playCount = 0;
     feedCount = 0;
     petCount = 0;
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog-01.png" alt="Celestial Dog">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
     // if (chosenAction == playing) {
     //   $("#target").fadeOut(function() {
     //     fsm.Change(fsm.states["Play"]);
@@ -210,6 +216,11 @@ var Play = function (machine) {
     $("#pick").show();
     $("#target").fadeIn();
 
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_play1-02.png" alt="Celestial Dog Playing">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
@@ -239,6 +250,17 @@ var Play = function (machine) {
       });
     }
     // playCount++;
+    if (playCount == 2) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_play2-03.png" alt="Celestial Dog Getting Tired">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    } else if (playCount == 3) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_play3-04.png" alt="Celestial Dog About to Implode">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    }
     if (playCount == 4) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Implode"]);
@@ -281,6 +303,12 @@ var Feed = function (machine) {
     DrawInID("#target", chosenAction.lines[feedCount-1]);
     $("#pick").show();
     $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
     if (shouldDebug) console.log(chosenAction.lines[feedCount-1]);
 
     if (callback !== undefined) callback();
@@ -311,6 +339,17 @@ if (chosenAction == feeding) {
 
         if (callback !== undefined) callback();
       });
+    }
+    if (feedCount == 2) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_feed2-08.png" alt="Celestial Dog Fat">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    } else if (feedCount == 3) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_feed3-07.png" alt="Celestial Dog About to Explode">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
     }
     if (feedCount == 4) {
       $("#target").fadeOut(function() {
@@ -353,6 +392,11 @@ var Pet = function (machine) {
     DrawInID("#target", chosenAction.lines[petCount%3]);
     $("#pick").show();
     $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_pet-06.png" alt="Celestial Dog Being Pet">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
 
     if (callback !== undefined) callback();
   };
@@ -405,6 +449,11 @@ var Implode = function (machine) {
     DrawInID("#target", "He imploded!!!!");
     $("#target").fadeIn();
 
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_implode-09.png" alt="Celestial Dog Imploded">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
@@ -435,6 +484,11 @@ var Explode = function (machine) {
     $("#pick").hide();
     $("#restart").show();
     $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_explode-10.png" alt="Celestial Dog Exploded">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
 
     if (callback !== undefined) callback();
   };

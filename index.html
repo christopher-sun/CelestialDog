@@ -12,15 +12,16 @@
   </head>
   <body>
     <div class="container" style="text-align:center; margin:auto;">
+      <div id="pic"></div>
       <div id="pick" class="row">
-        <button onclick="PickAction(playing)">Play</button>
-        <button onclick="PickAction(feeding)">Feed</button>
-        <button onclick="PickAction(petting)">Pet</button>
+        <button onclick="PickAction(playing)" style="background-color:#ffffff;">Play</button>
+        <button onclick="PickAction(feeding)" style="background-color:#ffffff;">Feed</button>
+        <button onclick="PickAction(petting)" style="background-color:#ffffff;">Pet</button>
       </div>
       <div id="restart" class="row">
-        <button onclick="location.reload();">Restart</button>
+        <button onclick="location.reload();" style="background-color:#ffffff;">Restart</button>
       </div>
-      <p id="target"></p>
+      <p id="target" style="color:#ffffff;">Celestial Dog greets you.</p>
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

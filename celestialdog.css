@@ -1,7 +1,12 @@
-/* body {
-  background-color: #FDE8D3;
+ body {
+  /* background-color: #FDE8D3; */
+  background-image: url("space.jpg");
 }
 
+.button {
+    background-color: #ffffff !important;
+}
+/*
 h1 {
   color: white;
   text-align: center;

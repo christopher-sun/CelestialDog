@@ -2,7 +2,10 @@
   /* background-color: #FDE8D3; */
   background-image: url("space.jpg");
 }
-
+/*
+This criterion is linked to a Learning Outcome Design - Typography
+Consistent typographic hierarchy, text has good contrast from background, typefaces are appropriate and legible
+*/
 .button {
     background-color: #ffffff !important;
 }

@@ -89,6 +89,10 @@ var StateMachine = function(){
       this.currentState.Enter();
     }
   }
+  /*
+  This criterion is linked to a Learning Outcome Interactive - Console Output
+  Must display current state of values in console
+  */
   // Down to here
   this.Debug = function () { // Edit this function with important variables from your code
     console.log("-------------------------");
@@ -118,6 +122,10 @@ var Init = function (machine) {
     feedCount = 0;
     petCount = 0;
 
+/*
+This criterion is linked to a Learning Outcome Design - Images
+All images have proportional aspect ratios, are free of artifacting (i.e. not blurry), and have ALT tags
+*/
     ClearByID("#pic");
     DrawInID("#pic", '<img src="celestialdog-01.png" alt="Celestial Dog">');
     // $("#pick").show();
@@ -211,6 +219,10 @@ var Play = function (machine) {
     if (shouldDebug) console.log(chosenAction.lines[playCount-1]);
 
     // playCount ++;
+    /*
+    This criterion is linked to a Learning Outcome Interactive - Visible Variable
+At least 1 variable must be visible to interactor during playthrough
+    */
     ClearByID("#target");
     DrawInID("#target", chosenAction.lines[playCount-1]);
     $("#pick").show();
@@ -435,7 +447,13 @@ var Pet = function (machine) {
     if (callback !== undefined) callback();
   };
 };
+/*
+This criterion is linked to a Learning Outcome Interactive - Different Outcomes
+At least 2 different, distinct outcomes (i.e. cannot only be a different value at the end, but must change narrative, etc. as well)
 
+This criterion is linked to a Learning Outcome Interactive - Visible Changes
+Clearly legible end state: the end of a visible, finite counter (e.g. 0 days remaining); and/or crossing the threshold of a visible variable (e.g. hunger hits 0, fatigue is over 100)
+*/
 var Implode = function (machine) {
   this.name = this.constructor.name;
   this.line = 4;
@@ -471,7 +489,13 @@ var Implode = function (machine) {
     if (callback !== undefined) callback();
   };
 };
+/*
+This criterion is linked to a Learning Outcome Interactive - Different Outcomes
+At least 2 different, distinct outcomes (i.e. cannot only be a different value at the end, but must change narrative, etc. as well)
 
+This criterion is linked to a Learning Outcome Interactive - Visible Changes
+Clearly legible end state: the end of a visible, finite counter (e.g. 0 days remaining); and/or crossing the threshold of a visible variable (e.g. hunger hits 0, fatigue is over 100)
+*/
 var Explode = function (machine) {
   this.name = this.constructor.name;
   this.line = 4;

@@ -1,6 +1,11 @@
 // Simulation Variables
 /////////////////////
 // Config
+
+/*
+This criterion is linked to a Learning Outcome Functionality - Variables
+At least 1 variables in the entire scenario, each of which are modified by decisions by the interactor
+*/
 var shouldDebug = true;
 var feedCount;
 var petCount;
@@ -16,7 +21,7 @@ var playing = new Sayings(
   [
     "He's having a great time.",
     "He's getting a little tired.",
-    "What's happening?? Is he impoding?"
+    "What's happening?? Is he imploding?"
   ]
 );
 
@@ -24,7 +29,7 @@ var petting = new Sayings(
   [
     "he loves the pets",
     "wow wow so many pets.",
-    "Is he starving because of all the pets?"
+    "pet pet pet!"
   ]
 );
 
@@ -41,11 +46,11 @@ var simState;
 /////////////////////
 $(document).ready(function() {
   simState = new StateMachine();
-  simState.Start(); 
-  
+  simState.Start();
+
   $("#bttn").click(function() {
     simState.Update();
-  });  
+  });
 });
 
 // State Machine ////
@@ -59,7 +64,7 @@ var StateMachine = function(){
     "Explode" : new Explode(this),
     "Implode" : new Implode(this),
   };
-  this.currentState = this.states["Init"]; //sets initial statemachine 
+  this.currentState = this.states["Init"]; //sets initial statemachine
   var nextState;
 
   // Largely don't mess with this section
@@ -77,7 +82,7 @@ var StateMachine = function(){
     nextState = state;
   };
   this.Transition = function() {
-    if (nextState !== undefined) {    
+    if (nextState !== undefined) {
       this.currentState.Exit();
       this.currentState = nextState;
       nextState = undefined;
@@ -106,14 +111,37 @@ var Init = function (machine) {
 
   // Happens once when state is entered
   this.Enter = function (callback) {
-    if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug) console.log("---- " + this.name + " Enter1");
     $("#pick").show();
     $("#restart").hide();
-
+    playCount = 0;
+    feedCount = 0;
+    petCount = 0;
+    // if (chosenAction == playing) {
+    //   $("#target").fadeOut(function() {
+    //     fsm.Change(fsm.states["Play"]);
+    //
+    //     if (callback !== undefined) callback();
+    //   });
+    // }
+    //   else if (chosenAction == petting) {
+    //   $("#target").fadeOut(function() {
+    //     fsm.Change(fsm.states["Pet"]);
+    //
+    //     if (callback !== undefined) callback();
+    //   });
+    // }
+    //   else if (chosenAction == feeding) {
+    //   $("#target").fadeOut(function() {
+    //     fsm.Change(fsm.states["Feed"]);
+    //
+    //     if (callback !== undefined) callback();
+    //   });
+    // }
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
-    if (shouldDebug) console.log("---- " + this.name + " Update");
+    if (shouldDebug) console.log("---- " + this.name + " Update1");
     if (chosenAction == playing) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Play"]);
@@ -142,7 +170,7 @@ var Init = function (machine) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
     //$("#pick").hide();
     $("#input").show();
-    
+
     if (callback !== undefined) callback();
   };
 };
@@ -152,32 +180,51 @@ var Play = function (machine) {
   this.name = this.constructor.name;
   this.line = 0;
   var fsm = machine;
+  playCount = 0;
 
   // Happens once when state is entered
   this.Enter = function (callback) {
+      /*
+      This criterion is linked to a Learning Outcome Functionality Variable Changes
+      At least 1 variable must be modified by more than 1 decision event on the same playthrough
+      */
+    playCount++;
+    feedCount = 0;
     if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+          console.log("----------------");
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
+    if (shouldDebug) console.log(chosenAction.lines[playCount-1]);
+
+    // playCount ++;
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[playCount]);
+    DrawInID("#target", chosenAction.lines[playCount-1]);
     $("#pick").show();
     $("#target").fadeIn();
-    feedCount = 0;
 
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
-    if (shouldDebug) console.log("---- " + this.name + " Update");
-    playCount++;
-    ClearByID("#target");
-    DrawInID("#target", chosenAction.lines[playCount]);
-    $("#pick").show();
-    $("#target").fadeIn();
-    if (playCount == 2) {
-      $("#target").fadeOut(function() {
-        fsm.Change(fsm.states["Implode"]);
-
-        if (callback !== undefined) callback();
-      });
-    } else if (chosenAction == feeding) {
+      if (shouldDebug) console.log("---- " + this.name + " Update2");
+    if (chosenAction == playing) {
+      playCount++;
+      if (playCount < 4) {
+          ClearByID("#target");
+          DrawInID("#target", chosenAction.lines[playCount-1]);
+          $("#pick").show();
+          $("#target").fadeIn();
+          if (shouldDebug) console.log(chosenAction.lines[playCount-1]);
+      }
+    }
+     else if (chosenAction == feeding) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Feed"]);
 
@@ -187,6 +234,14 @@ var Play = function (machine) {
       else if (chosenAction == petting) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Pet"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    // playCount++;
+    if (playCount == 4) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Implode"]);
 
         if (callback !== undefined) callback();
       });
@@ -204,32 +259,46 @@ var Feed = function (machine) {
   this.name = this.constructor.name;
   this.line = 1;
   var fsm = machine;
-  playCount = 0;
+  feedCount = 0;
 
   // Happens once when state is entered
   this.Enter = function (callback) {
+    feedCount++;
+    playCount = 0;
     if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+          console.log("----------------");
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[feedCount]);
+    DrawInID("#target", chosenAction.lines[feedCount-1]);
     $("#pick").show();
     $("#target").fadeIn();
+    if (shouldDebug) console.log(chosenAction.lines[feedCount-1]);
 
     if (callback !== undefined) callback();
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
-    feedCount++;
-    ClearByID("#target");
-    DrawInID("#target", chosenAction.lines[feedCount]);
-    $("#pick").show();
-    $("#target").fadeIn();
-    if (feedCount == 2) {
-      $("#target").fadeOut(function() {
-        fsm.Change(fsm.states["Explode"]);
-
-        if (callback !== undefined) callback();
-      });
-    } else if (chosenAction == playing) {
+    // feedCount++;
+if (chosenAction == feeding) {
+      feedCount++;
+      if (feedCount < 4) {
+          ClearByID("#target");
+          DrawInID("#target", chosenAction.lines[feedCount-1]);
+          $("#pick").show();
+          $("#target").fadeIn();
+          if (shouldDebug) console.log(chosenAction.lines[feedCount-1]);
+      }
+    }
+        else if (chosenAction == playing) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Play"]);
 
@@ -239,6 +308,13 @@ var Feed = function (machine) {
       else if (chosenAction == petting) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Pet"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    if (feedCount == 4) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Explode"]);
 
         if (callback !== undefined) callback();
       });
@@ -259,9 +335,22 @@ var Pet = function (machine) {
   // Happens once when state is entered
   this.Enter = function (callback) {
     feedCount = 0;
+    playCount = 0;
+    petCount++;
     if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+          console.log("----------------");
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
     ClearByID("#target");
-    //DrawInID("#target", chosenAction.lines[playCount]);
+    DrawInID("#target", chosenAction.lines[petCount%3]);
     $("#pick").show();
     $("#target").fadeIn();
 
@@ -269,9 +358,9 @@ var Pet = function (machine) {
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
-    playCount++;
+    // petCount++;
     ClearByID("#target");
-    DrawInID("#target", chosenAction.lines[playCount]);
+    // DrawInID("#target", chosenAction.lines[petCount]);
     $("#pick").show();
     $("#target").fadeIn();
     if (chosenAction == playing) {
@@ -287,10 +376,10 @@ var Pet = function (machine) {
 
         if (callback !== undefined) callback();
       });
-    
-    } else if (playCount == 2) {
+
+    } else if (chosenAction == feeding) {
       $("#target").fadeOut(function() {
-        fsm.Change(fsm.states["Implode"]);
+        fsm.Change(fsm.states["Feed"]);
 
         if (callback !== undefined) callback();
       });
@@ -408,7 +497,7 @@ function FadeByID(id, state) {
   } else {
     $(id).fadeOut();
   }
-  
+
 }
 function DrawInID(id, stateName) {
   $(id).append(

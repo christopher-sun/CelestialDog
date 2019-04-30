@@ -181,12 +181,14 @@ var Init = function (machine) {
     treatCount = 0;
     buttonCount = 0;
 
+    changeBar();
+
 /*
 This criterion is linked to a Learning Outcome Design - Images
 All images have proportional aspect ratios, are free of artifacting (i.e. not blurry), and have ALT tags
 */
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog-01.png" alt="Celestial Dog">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_neutral-12.png"  style="width:500px" alt="Celestial Dog">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
@@ -259,6 +261,8 @@ All images have proportional aspect ratios, are free of artifacting (i.e. not bl
     }
 
     if (callback !== undefined) callback();
+
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -292,6 +296,8 @@ var Play = function (machine) {
     treatCount = 0;
     petCount = 0;
     buttonCount++;
+
+    changeBar();
 
     if (happiness < 6) {
      happiness++;
@@ -330,7 +336,7 @@ At least 1 variable must be visible to interactor during playthrough
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_play1-02.png" alt="Celestial Dog Playing">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Playing">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
@@ -392,12 +398,12 @@ At least 1 variable must be visible to interactor during playthrough
     // playCount++;
     if (playCount == 2) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_play2-03.png" alt="Celestial Dog Getting Tired">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_bad-14.png" style="width:500px;" alt="Celestial Dog Getting Tired">');
         // $("#pick").show();
         $("#pic").fadeIn();
     } else if (playCount == 3) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_play3-04.png" alt="Celestial Dog About to Implode">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_dying-15.png" style="width:500px;" alt="Celestial Dog About to Implode">');
         // $("#pick").show();
         $("#pic").fadeIn();
     }
@@ -484,13 +490,14 @@ var Feed = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Fed">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
     if (shouldDebug) console.log(chosenAction.lines[feedCount-1]);
 
     if (callback !== undefined) callback();
+    changeBar();
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
@@ -545,12 +552,12 @@ var Feed = function (machine) {
     }
     if (feedCount == 2) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_feed2-08.png" alt="Celestial Dog Fat">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_bad-14.png" style="width:500px;" alt="Celestial Dog Fat">');
         // $("#pick").show();
         $("#pic").fadeIn();
     } else if (feedCount == 3) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_feed3-07.png" alt="Celestial Dog About to Explode">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_dying-15.png" style="width:500px;" alt="Celestial Dog About to Explode">');
         // $("#pick").show();
         $("#pic").fadeIn();
     }
@@ -579,7 +586,7 @@ var Feed = function (machine) {
       $("medicine").hide();
     }
 
-    
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -629,11 +636,12 @@ var Pet = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_pet-06.png" alt="Celestial Dog Being Pet">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Being Pet">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
     if (callback !== undefined) callback();
+    changeBar();
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
@@ -704,6 +712,7 @@ var Pet = function (machine) {
      else {
       $("medicine").hide();
     }
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -778,11 +787,12 @@ At least 1 variable must be visible to interactor during playthrough
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_play1-02.png" alt="Celestial Dog Playing">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Playing">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
     if (callback !== undefined) callback();
+    changeBar();
   };
   this.Update = function (callback) {
       if (shouldDebug) console.log("---- " + this.name + " Update2");
@@ -840,12 +850,12 @@ At least 1 variable must be visible to interactor during playthrough
     // playCount++;
     if (walkCount == 2) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_play2-03.png" alt="Celestial Dog Getting Tired">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_bad-14.png" style="width:500px;" alt="Celestial Dog Getting Tired">');
         // $("#pick").show();
         $("#pic").fadeIn();
     } else if (walkCount == 3) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_play3-04.png" alt="Celestial Dog About to Implode">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_dying-15.png" style="width:500px;" alt="Celestial Dog About to Implode">');
         // $("#pick").show();
         $("#pic").fadeIn();
     }
@@ -858,7 +868,7 @@ At least 1 variable must be visible to interactor during playthrough
         if (callback !== undefined) callback();
       });
     }
-    
+
      //logic for health, hunger, and happiness
     if (hunger < 2 || happiness <=2) {
       health--;
@@ -877,7 +887,7 @@ At least 1 variable must be visible to interactor during playthrough
      else {
       $("medicine").hide();
     }
-
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -934,13 +944,14 @@ var Treat = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Fed">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
     if (shouldDebug) console.log(chosenAction.lines[treatCount-1]);
 
     if (callback !== undefined) callback();
+    changeBar();
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
@@ -996,18 +1007,18 @@ if (chosenAction == treat) {
         if (callback !== undefined) callback();
       });
     }
-    if (feedCount == 2) {
+    if (treatCount == 2) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_feed2-08.png" alt="Celestial Dog Fat">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_bad-14.png" style="width:500px;" alt="Celestial Dog Fat">');
         // $("#pick").show();
         $("#pic").fadeIn();
-    } else if (feedCount == 3) {
+    } else if (treatCount == 3) {
         ClearByID("#pic");
-        DrawInID("#pic", '<img src="celestialdog_feed3-07.png" alt="Celestial Dog About to Explode">');
+        DrawInID("#pic", '<img src="Round2/celestialdog_dying-15.png" style="width:500px;" alt="Celestial Dog About to Explode">');
         // $("#pick").show();
         $("#pic").fadeIn();
     }
-    if (feedCount == 4) {
+    if (treatCount == 4) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Explode"]);
 
@@ -1040,6 +1051,7 @@ if (chosenAction == treat) {
      else {
       $("medicine").hide();
     }
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -1092,13 +1104,14 @@ var Medicine = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_happy-13.png" style="width:500px;" alt="Celestial Dog Fed">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
     if (shouldDebug) console.log("has been medicated");
 
     if (callback !== undefined) callback();
+    changeBar();
   };
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
@@ -1138,6 +1151,7 @@ var Medicine = function (machine) {
         if (callback !== undefined) callback();
       });
     }
+    changeBar();
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -1162,7 +1176,7 @@ var Implode = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_implode-09.png" alt="Celestial Dog Imploded">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_implode-20.png" style="width:500px;" alt="Celestial Dog Imploded">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
@@ -1205,7 +1219,7 @@ var Explode = function (machine) {
     $("#target").fadeIn();
 
     ClearByID("#pic");
-    DrawInID("#pic", '<img src="celestialdog_explode-10.png" alt="Celestial Dog Exploded">');
+    DrawInID("#pic", '<img src="Round2/celestialdog_explode-21.png" style="width:500px;" alt="Celestial Dog Exploded">');
     // $("#pick").show();
     $("#pic").fadeIn();
 
@@ -1250,6 +1264,68 @@ function changeState(machine, choice) {
   if (choice == petting) {
     fsm.Change(fsm.states["Pet"]);
   }
+}
+
+function changeBar() {
+    document.getElementById("u15").style.opacity = "0.2";
+    document.getElementById("u16").style.opacity = "0.2";
+    document.getElementById("u17").style.opacity = "0.2";
+    document.getElementById("u18").style.opacity = "0.2";
+    document.getElementById("u19").style.opacity = "0.2";
+    document.getElementById("u20").style.opacity = "0.2";
+    if (happiness == 1) {
+        document.getElementById("u15").style.opacity = "1.0";
+    } else if (happiness == 2) {
+        document.getElementById("u16").style.opacity = "1.0";
+    } else if (happiness == 3) {
+        document.getElementById("u17").style.opacity = "1.0";
+    } else if (happiness == 4) {
+        document.getElementById("u18").style.opacity = "1.0";
+    } else if (happiness == 5) {
+        document.getElementById("u19").style.opacity = "1.0";
+    } else if (happiness == 6) {
+        document.getElementById("u20").style.opacity = "1.0";
+    }
+
+    document.getElementById("u21").style.opacity = "0.2";
+    document.getElementById("u22").style.opacity = "0.2";
+    document.getElementById("u23").style.opacity = "0.2";
+    document.getElementById("u24").style.opacity = "0.2";
+    document.getElementById("u25").style.opacity = "0.2";
+    document.getElementById("u26").style.opacity = "0.2";
+    if (health == 1) {
+        document.getElementById("u21").style.opacity = "1.0";
+    } else if (health == 2) {
+        document.getElementById("u22").style.opacity = "1.0";
+    } else if (health == 3) {
+        document.getElementById("u23").style.opacity = "1.0";
+    } else if (health ==4) {
+        document.getElementById("u24").style.opacity = "1.0";
+    } else if (health == 5) {
+        document.getElementById("u25").style.opacity = "1.0";
+    } else if (health == 6) {
+        document.getElementById("u26").style.opacity = "1.0";
+    }
+
+    document.getElementById("u9").style.opacity = "0.2";
+    document.getElementById("u10").style.opacity = "0.2";
+    document.getElementById("u11").style.opacity = "0.2";
+    document.getElementById("u12").style.opacity = "0.2";
+    document.getElementById("u13").style.opacity = "0.2";
+    document.getElementById("u14").style.opacity = "0.2";
+    if (hunger == 1) {
+        document.getElementById("u9").style.opacity = "1.0";
+    } else if (hunger == 2) {
+        document.getElementById("u10").style.opacity = "1.0";
+    } else if (hunger ==3) {
+        document.getElementById("u11").style.opacity = "1.0";
+    } else if (hunger ==4 ) {
+        document.getElementById("u12").style.opacity = "1.0";
+    } else if (hunger == 5) {
+        document.getElementById("u13").style.opacity = "1.0";
+    } else if (hunger ==6) {
+        document.getElementById("u14").style.opacity = "1.0";
+    }
 }
 
 // Data /////////

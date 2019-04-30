@@ -10,16 +10,31 @@ var shouldDebug = true;
 var feedCount;
 var petCount;
 var playCount;
+var walkCount;
+var treatCount;
+
+var happiness;
+var health;
+var hunger;
+
+var buttonCount;
+
 var feeding = new Sayings(
   [
     "WOW he's really great",
+    "munch munch munch",
+    "man he loves that kibble",
     "He's getting really full",
+    "like really really full",
     "Oh no! He's about to explode!"
   ]
 );
 var playing = new Sayings(
   [
     "He's having a great time.",
+    "wow does he love chasing balls",
+    "is he running away with the frisbee????",
+    "where is he going??",
     "He's getting a little tired.",
     "What's happening?? Is he imploding?"
   ]
@@ -29,7 +44,32 @@ var petting = new Sayings(
   [
     "he loves the pets",
     "wow wow so many pets.",
-    "pet pet pet!"
+    "pet pet pet!",
+    "squiggly butt",
+    "more pets! more pets!",
+    "wag wag waggy tail",
+  ]
+);
+
+var walking = new Sayings(
+  [
+    "so excited for walk",
+    "did someone say walk!?!?",
+    "nice little mozy down the block",
+    "another dog out for a walk through the star system",
+    "must be nice to walk through the stars",
+    "oh he's slowing down"
+  ]
+);
+
+var treat = new Sayings(
+  [
+    "num num num num num",
+    "crunch crunch yum yum.",
+    "licks his lips and is ready for more",
+    "treats are his fave. he's like a black hole for them",
+    "tummy grumbles from all the treats",
+    "grumbly grumbly, grumble grumble"
   ]
 );
 
@@ -61,6 +101,9 @@ var StateMachine = function(){
     "Play" : new Play(this),
     "Feed" : new Feed(this),
     "Pet" : new Pet(this),
+    "Walk" : new Walk(this),
+    "Treat" : new Treat(this),
+    "Medicine" : new Medicine(this),
     "Explode" : new Explode(this),
     "Implode" : new Implode(this),
   };
@@ -100,6 +143,12 @@ var StateMachine = function(){
     console.log("Feed " + feedCount);
     console.log("Play " + playCount);
     console.log("Pet " + petCount);
+    console.log("Walk " + walkCount);
+    console.log("Treat " + treatCount);
+    console.log("----------------");
+    console.log("happiness " + happiness);
+    console.log("hunger " + hunger);
+    console.log("health " + health);
     console.log("----------------");
     console.log("State = " + this.currentState.name);
     console.log("----------------");
@@ -112,15 +161,25 @@ var Init = function (machine) {
   playCount = 0;
   feedCount = 0;
   petCount = 0;
+  walkCount = 0;
+  treatCount = 0;
+  hunger = 3;
+  happiness = 3;
+  health = 3;
+  buttonCount = 0;
 
   // Happens once when state is entered
   this.Enter = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Enter1");
     $("#pick").show();
     $("#restart").hide();
+    $("#medicine").hide();
     playCount = 0;
     feedCount = 0;
     petCount = 0;
+    walkCount = 0;
+    treatCount = 0;
+    buttonCount = 0;
 
 /*
 This criterion is linked to a Learning Outcome Design - Images
@@ -177,6 +236,27 @@ All images have proportional aspect ratios, are free of artifacting (i.e. not bl
         if (callback !== undefined) callback();
       });
     }
+      else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
 
     if (callback !== undefined) callback();
   };
@@ -195,6 +275,10 @@ var Play = function (machine) {
   this.line = 0;
   var fsm = machine;
   playCount = 0;
+  feedCount = 0;
+  walkCount = 0;
+  treatCount = 0;
+  petCount = 0;
 
   // Happens once when state is entered
   this.Enter = function (callback) {
@@ -204,6 +288,17 @@ var Play = function (machine) {
       */
     playCount++;
     feedCount = 0;
+    walkCount = 0;
+    treatCount = 0;
+    petCount = 0;
+    buttonCount++;
+
+    if (happiness < 6) {
+     happiness++;
+    }
+    if (hunger > 0) {
+      hunger--;
+    }
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     if (shouldDebug)
         { // Edit this function with important variables from your code
@@ -212,6 +307,12 @@ var Play = function (machine) {
           console.log("Feed " + feedCount);
           console.log("Play " + playCount);
           console.log("Pet " + petCount);
+          console.log("Walk " + walkCount);
+          console.log("Treat " + treatCount);
+          console.log("----------------");
+          console.log("happiness " + happiness);
+          console.log("hunger " + hunger);
+          console.log("health " + health);
           console.log("----------------");
           console.log("State = " + this.name);
           console.log("----------------");
@@ -239,7 +340,13 @@ At least 1 variable must be visible to interactor during playthrough
       if (shouldDebug) console.log("---- " + this.name + " Update2");
     if (chosenAction == playing) {
       playCount++;
-      if (playCount < 4) {
+      if (happiness < 6) {
+         happiness++;
+      }
+      if (hunger > 0) {
+        hunger--;
+      }
+      if (playCount < 5) {
           ClearByID("#target");
           DrawInID("#target", chosenAction.lines[playCount-1]);
           $("#pick").show();
@@ -261,6 +368,27 @@ At least 1 variable must be visible to interactor during playthrough
         if (callback !== undefined) callback();
       });
     }
+    else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
     // playCount++;
     if (playCount == 2) {
         ClearByID("#pic");
@@ -273,13 +401,34 @@ At least 1 variable must be visible to interactor during playthrough
         // $("#pick").show();
         $("#pic").fadeIn();
     }
-    if (playCount == 4) {
+
+    //logic for health, happiness, hunger
+    if (health == 0 && hunger <=2) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Implode"]);
 
         if (callback !== undefined) callback();
       });
     }
+    else if (hunger <2) {
+      health--;
+    }
+    else if (2 < happiness && 2 < hunger < 5 && health < 6) {
+      health ++;
+    }
+    else if (buttonCount/3 == 0) {
+      happiness--;
+    } else if (buttonCount/2 == 0 ) {
+      hunger--;
+    }
+    if (health <= 2) {
+      $("#medicine").show();
+    }
+    else {
+      $("medicine").hide();
+    }
+
+
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -294,11 +443,23 @@ var Feed = function (machine) {
   this.line = 1;
   var fsm = machine;
   feedCount = 0;
+  playCount = 0;
+  walkCount = 0;
+  treatCount = 0;
+  petCount = 0;
 
   // Happens once when state is entered
   this.Enter = function (callback) {
     feedCount++;
     playCount = 0;
+    walkCount = 0;
+    treatCount = 0;
+    petCount = 0;
+    buttonCount++;
+
+    if (hunger < 6) {
+      hunger++;
+    }
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     if (shouldDebug)
         { // Edit this function with important variables from your code
@@ -307,6 +468,12 @@ var Feed = function (machine) {
           console.log("Feed " + feedCount);
           console.log("Play " + playCount);
           console.log("Pet " + petCount);
+          console.log("Walk " + walkCount);
+          console.log("Treat " + treatCount);
+          console.log("----------------");
+          console.log("happiness " + happiness);
+          console.log("hunger " + hunger);
+          console.log("health " + health);
           console.log("----------------");
           console.log("State = " + this.name);
           console.log("----------------");
@@ -328,9 +495,12 @@ var Feed = function (machine) {
   this.Update = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Update");
     // feedCount++;
-if (chosenAction == feeding) {
+    if (chosenAction == feeding) {
       feedCount++;
-      if (feedCount < 4) {
+      if (hunger < 6) {
+        hunger++;
+      }
+      if (feedCount < 5) {
           ClearByID("#target");
           DrawInID("#target", chosenAction.lines[feedCount-1]);
           $("#pick").show();
@@ -352,6 +522,27 @@ if (chosenAction == feeding) {
         if (callback !== undefined) callback();
       });
     }
+    else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
     if (feedCount == 2) {
         ClearByID("#pic");
         DrawInID("#pic", '<img src="celestialdog_feed2-08.png" alt="Celestial Dog Fat">');
@@ -363,13 +554,32 @@ if (chosenAction == feeding) {
         // $("#pick").show();
         $("#pic").fadeIn();
     }
-    if (feedCount == 4) {
+   if (health == 0 && hunger >= 4) {
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Explode"]);
 
         if (callback !== undefined) callback();
       });
     }
+    if (hunger >5 || happiness <=2) {
+      health--;
+    }
+    else if (2 < happiness && 2 < hunger < 5 && health < 6) {
+      health ++;
+    }
+    else if (buttonCount/3 == 0) {
+      happiness--;
+    } else if (buttonCount/2 == 0 ) {
+      hunger--;
+    }
+    if (health <= 2) {
+      $("#medicine").show();
+    }
+     else {
+      $("medicine").hide();
+    }
+
+    
   };
   this.Exit = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Exit");
@@ -387,7 +597,14 @@ var Pet = function (machine) {
   this.Enter = function (callback) {
     feedCount = 0;
     playCount = 0;
+    walkCount = 0;
+    treatCount = 0;
     petCount++;
+    buttonCount++;
+
+    if (happiness <6) {
+       happiness++;
+    }
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     if (shouldDebug)
         { // Edit this function with important variables from your code
@@ -396,6 +613,12 @@ var Pet = function (machine) {
           console.log("Feed " + feedCount);
           console.log("Play " + playCount);
           console.log("Pet " + petCount);
+          console.log("Walk " + walkCount);
+          console.log("Treat " + treatCount);
+          console.log("----------------");
+    console.log("happiness " + happiness);
+    console.log("hunger " + hunger);
+    console.log("health " + health);
           console.log("----------------");
           console.log("State = " + this.name);
           console.log("----------------");
@@ -427,6 +650,9 @@ var Pet = function (machine) {
       });
     }
       else if (chosenAction == petting) {
+      if (happiness < 6) {
+         happiness++;
+      }
       $("#target").fadeOut(function() {
         fsm.Change(fsm.states["Pet"]);
 
@@ -439,6 +665,44 @@ var Pet = function (machine) {
 
         if (callback !== undefined) callback();
       });
+    }
+    else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+     //logic for health, hunger, and happiness
+   if (2 < happiness && 2 < hunger < 5  && health < 6) {
+      health ++;
+    }
+    else if (buttonCount/3 == 0) {
+      happiness--;
+    } else if (buttonCount/2 == 0 ) {
+      hunger--;
+    }
+
+    //medicine
+    if (health <= 2) {
+      $("#medicine").show();
+    }
+     else {
+      $("medicine").hide();
     }
   };
   this.Exit = function (callback) {
@@ -454,6 +718,435 @@ At least 2 different, distinct outcomes (i.e. cannot only be a different value a
 This criterion is linked to a Learning Outcome Interactive - Visible Changes
 Clearly legible end state: the end of a visible, finite counter (e.g. 0 days remaining); and/or crossing the threshold of a visible variable (e.g. hunger hits 0, fatigue is over 100)
 */
+
+var Walk = function (machine) {
+  this.name = this.constructor.name;
+  this.line = 0;
+  var fsm = machine;
+  playCount = 0;
+  petCount = 0;
+  feedCount = 0;
+  treatCount = 0;
+
+  // Happens once when state is entered
+  this.Enter = function (callback) {
+      /*
+      This criterion is linked to a Learning Outcome Functionality Variable Changes
+      At least 1 variable must be modified by more than 1 decision event on the same playthrough
+      */
+    walkCount++;
+    feedCount = 0;
+    treatCount = 0;
+    playCount = 0;
+    petCount = 0;
+    buttonCount++;
+
+    if (happiness < 6) {
+      happiness++;
+    }
+    if (hunger > 0) {
+      hunger--;
+    }
+    if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+          console.log("Walk " + walkCount);
+          console.log("Treat " + treatCount);
+          console.log("----------------");
+    console.log("happiness " + happiness);
+    console.log("hunger " + hunger);
+    console.log("health " + health);
+          console.log("----------------");
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
+    if (shouldDebug) console.log(chosenAction.lines[walkCount-1]);
+
+    // playCount ++;
+    /*
+    This criterion is linked to a Learning Outcome Interactive - Visible Variable
+At least 1 variable must be visible to interactor during playthrough
+    */
+    ClearByID("#target");
+    DrawInID("#target", chosenAction.lines[walkCount-1]);
+    $("#pick").show();
+    $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_play1-02.png" alt="Celestial Dog Playing">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
+    if (callback !== undefined) callback();
+  };
+  this.Update = function (callback) {
+      if (shouldDebug) console.log("---- " + this.name + " Update2");
+    if (chosenAction == walking) {
+      walkCount++;
+      if (happiness < 6) {
+      happiness++;
+    }
+    if (hunger > 0) {
+      hunger--;
+    }
+      if (walkCount < 5) {
+          ClearByID("#target");
+          DrawInID("#target", chosenAction.lines[walkCount-1]);
+          $("#pick").show();
+          $("#target").fadeIn();
+          if (shouldDebug) console.log(chosenAction.lines[walkCount-1]);
+      }
+    }
+     else if (chosenAction == feeding) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Feed"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == petting) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Pet"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == playing) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Play"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    // playCount++;
+    if (walkCount == 2) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_play2-03.png" alt="Celestial Dog Getting Tired">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    } else if (walkCount == 3) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_play3-04.png" alt="Celestial Dog About to Implode">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    }
+
+
+    if (health == 0 && hunger <=2) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Implode"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    
+     //logic for health, hunger, and happiness
+    if (hunger < 2 || happiness <=2) {
+      health--;
+    }
+    else if (2 < happiness && 2 < hunger < 5 && health < 6) {
+      health ++;
+    } else if (buttonCount/3 == 0) {
+      happiness--;
+    } else if (buttonCount/2 == 0 ) {
+      hunger--;
+    }
+
+    if (health <= 2) {
+      $("#medicine").show();
+    }
+     else {
+      $("medicine").hide();
+    }
+
+  };
+  this.Exit = function (callback) {
+    if (shouldDebug) console.log("---- " + this.name + " Exit");
+    ClearByID("#target");
+    if (callback !== undefined) callback();
+  };
+};
+
+var Treat = function (machine) {
+  this.name = this.constructor.name;
+  this.line = 1;
+  var fsm = machine;
+  playCount = 0;
+  petCount = 0;
+  walkCount = 0;
+  feedCount = 0;
+  buttonCount++;
+
+  // Happens once when state is entered
+  this.Enter = function (callback) {
+    treatCount++;
+    playCount = 0;
+    petCount = 0;
+    walkCount = 0;
+    feedCount = 0;
+
+    if (hunger < 6) {
+      hunger++;
+    }
+    if (happiness < 6) {
+      happiness++;
+    }
+    if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+          console.log("Walk " + walkCount);
+          console.log("Treat " + treatCount);
+          console.log("----------------");
+    console.log("happiness " + happiness);
+    console.log("hunger " + hunger);
+    console.log("health " + health);
+          console.log("----------------");
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
+    ClearByID("#target");
+    DrawInID("#target", chosenAction.lines[treatCount-1]);
+    $("#pick").show();
+    $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
+    if (shouldDebug) console.log(chosenAction.lines[treatCount-1]);
+
+    if (callback !== undefined) callback();
+  };
+  this.Update = function (callback) {
+    if (shouldDebug) console.log("---- " + this.name + " Update");
+    // feedCount++;
+if (chosenAction == treat) {
+      treatCount++;
+      if (hunger < 6) {
+        hunger++;
+      }
+      if (happiness < 6) {
+        happiness++;
+      }
+      if (treatCount < 5) {
+          ClearByID("#target");
+          DrawInID("#target", chosenAction.lines[treatCount-1]);
+          $("#pick").show();
+          $("#target").fadeIn();
+          if (shouldDebug) console.log(chosenAction.lines[treatCount-1]);
+      }
+    }
+        else if (chosenAction == playing) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Play"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == petting) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Pet"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == feeding) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Feed"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == medicine) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Medicine"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    if (feedCount == 2) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_feed2-08.png" alt="Celestial Dog Fat">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    } else if (feedCount == 3) {
+        ClearByID("#pic");
+        DrawInID("#pic", '<img src="celestialdog_feed3-07.png" alt="Celestial Dog About to Explode">');
+        // $("#pick").show();
+        $("#pic").fadeIn();
+    }
+    if (feedCount == 4) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Explode"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+
+     //logic for health, hunger, and happiness
+    if (health == 0 && hunger >= 5) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Explode"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+    if (hunger ==6) {
+      health--;
+    }
+    else if (2 < happiness && 2 < hunger < 5 && health < 6) {
+      health ++;
+    } else if (buttonCount/3 == 0) {
+      happiness--;
+    } else if (buttonCount/2 == 0 ) {
+      hunger--;
+    }
+
+    if (health <= 2) {
+      $("#medicine").show();
+    }
+     else {
+      $("medicine").hide();
+    }
+  };
+  this.Exit = function (callback) {
+    if (shouldDebug) console.log("---- " + this.name + " Exit");
+    ClearByID("#target");
+    if (callback !== undefined) callback();
+  };
+};
+
+var Medicine = function (machine) {
+  this.name = this.constructor.name;
+  this.line = 1;
+  var fsm = machine;
+  feedCount = 0;
+  treatCount = 0;
+  playCount = 0;
+  walkCount = 0;
+  petCount = 0;
+  buttonCount++;
+
+
+  // Happens once when state is entered
+  this.Enter = function (callback) {
+    feedCount = 0;
+    treatCount = 0;
+    playCount = 0;
+    walkCount = 0;
+    petCount = 0;
+    health = health + 2;
+    if (shouldDebug) console.log("---- " + this.name + " Enter");
+    if (shouldDebug)
+        { // Edit this function with important variables from your code
+          console.log("-------------------------");
+          console.log("timeStep = " + timeStep);
+          console.log("Feed " + feedCount);
+          console.log("Play " + playCount);
+          console.log("Pet " + petCount);
+                   console.log("----------------");
+    console.log("happiness " + happiness);
+    console.log("hunger " + hunger);
+    console.log("health " + health);
+          console.log("----------------");
+
+          console.log("State = " + this.name);
+          console.log("----------------");
+        };
+    ClearByID("#target");
+    DrawInID("#target", "Celestial Dog feels better!");
+    $("#pick").show();
+    $("#medicine").hide();
+    $("#target").fadeIn();
+
+    ClearByID("#pic");
+    DrawInID("#pic", '<img src="celestialdog_feed1-05.png" alt="Celestial Dog Fed">');
+    // $("#pick").show();
+    $("#pic").fadeIn();
+
+    if (shouldDebug) console.log("has been medicated");
+
+    if (callback !== undefined) callback();
+  };
+  this.Update = function (callback) {
+    if (shouldDebug) console.log("---- " + this.name + " Update");
+    // feedCount++;
+    if (chosenAction == feeding) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Feed"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+        else if (chosenAction == playing) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Play"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == petting) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Pet"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == treat) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Treat"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+      else if (chosenAction == walking) {
+      $("#target").fadeOut(function() {
+        fsm.Change(fsm.states["Walk"]);
+
+        if (callback !== undefined) callback();
+      });
+    }
+  };
+  this.Exit = function (callback) {
+    if (shouldDebug) console.log("---- " + this.name + " Exit");
+    ClearByID("#target");
+    if (callback !== undefined) callback();
+  };
+};
+
+
 var Implode = function (machine) {
   this.name = this.constructor.name;
   this.line = 4;
@@ -463,6 +1156,7 @@ var Implode = function (machine) {
   this.Enter = function (callback) {
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     $("#pick").hide();
+    $("#medicine").hide();
     $("#restart").show();
     DrawInID("#target", "He imploded!!!!");
     $("#target").fadeIn();
@@ -506,6 +1200,7 @@ var Explode = function (machine) {
     if (shouldDebug) console.log("---- " + this.name + " Enter");
     DrawInID("#target", "He exploded!!!!!");
     $("#pick").hide();
+    $("#medicine").hide();
     $("#restart").show();
     $("#target").fadeIn();
 

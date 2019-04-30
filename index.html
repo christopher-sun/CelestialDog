@@ -19,14 +19,15 @@
       <div id="pic"></div> -->
 
       <!-- celestialdog_neutral (Image) -->
-      <div id="pic" class="ax_default image" data-label="celestialdog_neutral">
+      <div id="pic" class="ax_default image" data-label="celestialdog_neutral" style="position:absolute; left:50%;">
         <img id="pic" class="img " src="Round2/celestialdog_neutral-12.png"/>
       </div>
 
-      <!-- Unnamed (Rectangle) -->
-      <div id="u2" class="ax_default box_1">
-        <div id="u2_div" class=""></div>
-      </div>
+      <div id="bars">
+              <!-- Unnamed (Rectangle) -->
+              <div id="u2" class="ax_default box_1">
+                <div id="u2_div" class=""></div>
+              </div>
 
               <!-- hunger1 (Rectangle) -->
               <div id="u9" class="ax_default box_1" data-label="hunger1">
@@ -142,7 +143,9 @@
                 </div>
               </div>
 
-      <div id="pick" class="row">
+          </div>
+
+      <div id="pick" class="row" style="position:relative; left:50%; padding-top:80%;">
         <button onclick="PickAction(playing)" style="background-color:#ffffff;">Play</button>
         <button onclick="PickAction(feeding)" style="background-color:#ffffff;">Feed</button>
         <button onclick="PickAction(petting)" style="background-color:#ffffff;">Pet</button>
@@ -150,10 +153,10 @@
         <button onclick="PickAction(walking)" style="background-color:#ffffff;">Walk</button>
 
       </div>
-      <div id="restart" class="row">
+      <div id="restart" class="row" style="position:relative; left:75%; padding-top:80%;">
         <button onclick="location.reload();" style="background-color:#ffffff;">Restart</button>
       </div>
-      <div id="medicine" class="row">
+      <div id="medicine" class="row" style="position:relative; left:75%;">
         <button onclick="PickAction(medicine)" style="background-color:#ffffff;">Give Medicine</button>
       </div>
 
@@ -161,7 +164,7 @@
       This criterion is linked to a Learning Outcome Interactive - Visible Variable
 At least 1 variable must be visible to interactor during playthrough
   -->
-      <p id="target" style="color:#ffffff;">Celestial Dog greets you.</p>
+      <p id="target" style="color:#ffffff; text-align:center; padding-left:60%;">Celestial Dog greets you.</p>
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

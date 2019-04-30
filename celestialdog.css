@@ -3,7 +3,7 @@
   background-image: url("Round2/wallpaper-25.png");
   background-size:     cover;                      /* <------ */
     background-repeat:   no-repeat;
-    background-position: center center; 
+    background-position: center center;
 }
 
 .bg {
@@ -127,3 +127,16 @@ Must be mobile responsive (at least one @media rule where images are not skewed,
   height: 100vh;
   flex-wrap: no-wrap;
 } */ */
+
+#pic {
+    position:absolute !important;
+    left:50%;
+}
+#bars {
+
+}
+/* #pick {
+    position:absolute;
+    left:50%;
+    top:90%;
+} */
